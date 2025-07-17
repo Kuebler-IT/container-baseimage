@@ -1,6 +1,6 @@
-# Use osixia/light-baseimage
-# https://github.com/osixia/docker-light-baseimage
-FROM osixia/light-baseimage:1.3.3
+# Use kueblerit/container-baseimage
+# https://github.com/kuebler-it/container-baseimage
+FROM kueblerit/container-baseimage:12.0.0
 
 # Download nginx from apt-get and clean apt-get files
 RUN apt-get -y update \
@@ -13,7 +13,7 @@ RUN apt-get -y update \
 ADD service /container/service
 
 # Use baseimage install-service script
-# https://github.com/osixia/docker-light-baseimage/blob/stable/image/tool/install-service
+# https://github.com/kuebler-it/container-baseimage/blob/stable/image/tool/install-service
 RUN /container/tool/install-service
 
 # Add default env directory

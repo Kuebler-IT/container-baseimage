@@ -809,7 +809,7 @@ def main(args):
 		run_no_process_container(args)
 
 # Parse options.
-parser = argparse.ArgumentParser(description = 'Initialize the system.', epilog='Osixia! Light Baseimage: https://github.com/osixia/docker-light-baseimage')
+parser = argparse.ArgumentParser(description = 'Initialize the system.', epilog='Kuebler-IT Container Baseimage: https://github.com/kuebler-it/container-baseimage')
 parser.add_argument('main_command', metavar = 'MAIN_COMMAND', type = str, nargs = '*',
 	help = 'The main command to run, leave empty to only run container process.')
 parser.add_argument('-e', '--skip-env-files', dest = 'skip_env_files',

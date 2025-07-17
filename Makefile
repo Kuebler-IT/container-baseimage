@@ -1,13 +1,13 @@
-NAME = osixia/light-baseimage
-VERSION = 1.3.3
+NAME = kueblerit/container-baseimage
+VERSION = 12.0.0
 
 .PHONY: build build-nocache test tag-latest push push-latest release git-tag-version
 
 build:
-	docker build -f image/Dockerfile -t $(NAME):$(VERSION) --rm image
+	docker build -f image/Dockerfile -t $(NAME):$(VERSION) --rm image --platform linux/amd64,linux/arm64
 
 build-nocache:
-	docker build -f image/Dockerfile -t $(NAME):$(VERSION) --no-cache --rm image
+	docker build -f image/Dockerfile -t $(NAME):$(VERSION) --no-cache --rm image --platform linux/amd64,linux/arm64
 
 test:
 	env NAME=$(NAME) VERSION=$(VERSION) bats test/test.bats
