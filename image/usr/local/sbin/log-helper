@@ -131,7 +131,8 @@ function level() {
     fi
     
     local log_level_var=LOG_LEVEL_$loglevel_str
-    
+
+    # shellcheck disable=all
     if [ $log_level -$operator ${!log_level_var} ]; then
         exit 0
     else

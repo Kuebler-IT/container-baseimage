@@ -5,7 +5,6 @@ call=$1
 function iterate() {
     local env_var_name=$1
     local env_var=${!env_var_name}
-    
     if [ "$(complex-bash-env isTable "$env_var")" = true ]; then
         complex-bash-env stripTablePrefix "${env_var}"
     else
@@ -47,13 +46,15 @@ function getRowValue() {
 
 function getRowKeyVarName() {
     local env_var=$1
-    local row=($(complex-bash-env getRow "$env_var"))
+    local row
+    IFS=" " read -r -a row <<< "$(complex-bash-env getRow "$env_var")"
     echo "${row[0]}"
 }
 
 function getRowValueVarName() {
     local env_var=$1
-    local row=($(complex-bash-env getRow "$env_var"))
+    local row
+    IFS=" " read -r -a row <<< "$(complex-bash-env getRow "$env_var")"
     echo "${row[1]}"
 }
 
@@ -83,7 +84,7 @@ function stripRowPrefix() {
 function stripPrefix() {
     local env_var=$1
     local prefix=$2
-    local r=${env_var#$prefix}
+    local r="${env_var#"$prefix"}"
     echo "${r}"
 }
 

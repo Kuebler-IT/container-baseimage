@@ -1,11 +1,11 @@
 setup() {
-    IMAGE_NAME="$NAME:$VERSION"
+    IMAGE_NAME="$NAME:$VERSION-test"
 }
 
 # function relative to the current container / image
 build_image() {
     #disable outputs
-    docker build -t $IMAGE_NAME $BATS_TEST_DIRNAME/../image &> /dev/null
+    DOCKER_CLI_HINTS=false docker build -q --no-cache -t "$IMAGE_NAME" "$BATS_TEST_DIRNAME/../image" &> /dev/null
 }
 
 run_image() {

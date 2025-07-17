@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+echo "You called the $(basename "$0") from DEPRECATED path. New location is /usr/local/sbin/$(basename "$0"). Please use only '$(basename "$0")' as command."
+
+"/usr/local/sbin/$(basename "$0")" "$@"

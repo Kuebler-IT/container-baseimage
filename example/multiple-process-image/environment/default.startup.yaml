@@ -1,3 +1,4 @@
+---
 # This is the default image startup configuration file
 # this file define environment variables used during the container **first start** in **startup files**.
 

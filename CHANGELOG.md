@@ -1,6 +1,28 @@
 # Changelog
 
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## [unreleased]
+
+## [12.1.0] - 2025-07-17
+
+### Changed
+
+- Dockerfile and directory structure changed massively to get a easier deployment.
+
+### Deprecated
+
+- All paths are changed for the /container/tools. The commands below are deprecated and
+  needs to be replaced on the images soon. This will definetly removed on releases 13.x
+  which is planned with Debian Trixie release cycle.
+
+### Fixed
+
+- Variable parsing from yaml file failed after upgrade to Python3.11, this is fixed in
+  this version now.
 
 ## [12.0.0] - 2025-07-17
 

@@ -5,7 +5,7 @@
 
 [hub]: https://hub.docker.com/r/kueblerit/container-baseimage/
 
-Latest release: 12.0.0 [Changelog](CHANGELOG.md)
+Latest release: 12.1.0 [Changelog](CHANGELOG.md)
  | [Docker Hub](https://hub.docker.com/r/kueblerit/container-baseimage/)
 
 A **Debian 12 (Bookworm)** based docker image to build reliable image quickly. This image provide a simple opinionated solution to build multiple or single process image with minimum of layers and an optimized build.
@@ -91,7 +91,7 @@ This image use four directories:
 - **/container/environment**: for environment files.
 - **/container/service**: for services to install, setup and run.
 - **/container/service-available**: for service that may be on demand downloaded, installed, setup and run.
-- **/container/tool**: for image tools.
+- **/container/tool**: for image tools (DEPRECATED).
 
 By the way at run time another directory is created:
 
@@ -149,7 +149,7 @@ In the Dockerfile we are going to:
 ```Dockerfile
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.0.0
+FROM kueblerit/container-baseimage:12.1.0
 
 # Download nginx from apt-get and clean apt-get files
 RUN apt-get -y update \
@@ -162,8 +162,8 @@ RUN apt-get -y update \
 ADD service /container/service
 
 # Use baseimage install-service script
-# https://github.com/kuebler-it/container-baseimage/blob/stable/image/tool/install-service
-RUN /container/tool/install-service
+# https://github.com/kuebler-it/container-baseimage/blob/stable/image/usr/local/sbin/install-service
+RUN install-service
 
 # Add default env directory
 ADD environment /container/environment/99-default
@@ -175,7 +175,7 @@ VOLUME /var/www/
 EXPOSE 80 443
 ```
 
-The Dockerfile contains directives to download nginx from apt-get but all the initial setup will take place in install.sh file (called by /container/tool/install-service tool) for a better build experience. The time consuming download task is decoupled from the initial setup to make great use of docker build cache. If install.sh file is changed the builder won't have to download again nginx, and will just run install scripts.
+The Dockerfile contains directives to download nginx from apt-get but all the initial setup will take place in install.sh file (called by install-service tool) for a better build experience. The time consuming download task is decoupled from the initial setup to make great use of docker build cache. If install.sh file is changed the builder won't have to download again nginx, and will just run install scripts.
 
 #### Service files
 
@@ -417,12 +417,12 @@ In the Dockerfile we are going to:
 ```Dockerfile
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.0.0
+FROM kueblerit/container-baseimage:12.1.0
 
 # Install multiple process stack, nginx and php7.0-fpm and clean apt-get files
-# https://github.com/kuebler-it/container-baseimage/blob/stable/image/tool/add-multiple-process-stack
+# https://github.com/kuebler-it/container-baseimage/blob/stable/image/usr/local/sbin/add-multiple-process-stack
 RUN apt-get -y update \
-    && /container/tool/add-multiple-process-stack \
+    && add-multiple-process-stack \
     && LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         nginx \
         php7.0-fpm \
@@ -433,8 +433,8 @@ RUN apt-get -y update \
 ADD service /container/service
 
 # Use baseimage install-service script
-# https://github.com/kuebler-it/container-baseimage/blob/stable/image/tool/install-service
-RUN /container/tool/install-service
+# https://github.com/kuebler-it/container-baseimage/blob/stable/image/usr/local/sbin/install-service
+RUN install-service
 
 # Add default env directory
 ADD environment /container/environment/99-default
@@ -446,7 +446,7 @@ VOLUME /var/www/
 EXPOSE 80 443
 ```
 
-The Dockerfile contains directives to download nginx and php7.0-fpm from apt-get but all the initial setup will take place in install.sh file (called by /container/tool/install-service tool) for a better build experience. The time consuming download task is decoupled from the initial setup to make great use of docker build cache. If an install.sh file is changed the builder will not have to download again nginx and php7.0-fpm add will just run install scripts.
+The Dockerfile contains directives to download nginx and php7.0-fpm from apt-get but all the initial setup will take place in install.sh file (called by install-service tool) for a better build experience. The time consuming download task is decoupled from the initial setup to make great use of docker build cache. If an install.sh file is changed the builder will not have to download again nginx and php7.0-fpm add will just run install scripts.
 
 Maybe you already read that in the previous example ?Sorry.
 
@@ -627,14 +627,14 @@ Here simple Dockerfile example how to add a service-available to an image:
 ```Dockerfile
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.0.0
+FROM kueblerit/container-baseimage:12.1.0
 
 # Add cfssl and cron service-available
-# https://github.com/kuebler-it/container-baseimage/blob/stable/image/tool/add-service-available
+# https://github.com/kuebler-it/container-baseimage/blob/stable/image/usr/local/sbin/add-service-available
 # https://github.com/kuebler-it/container-baseimage/blob/stable/image/service-available/:ssl-tools/download.sh
 # https://github.com/kuebler-it/container-baseimage/blob/stable/image/service-available/:cron/download.sh
 RUN apt-get -y update \
-    && /container/tool/add-service-available :ssl-tools :cron \
+    && add-service-available :ssl-tools :cron \
     && LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
        nginx \
        php7.0-fpm
@@ -693,7 +693,7 @@ What it does:
 *Run tool* takes several options, to list them:
 
 ```text
-docker run kueblerit/container-baseimage:12.0.0 --help
+docker run kueblerit/container-baseimage:12.1.0 --help
 usage: run [-h] [-e] [-s] [-p] [-f] [-o {startup,process,finish}]
            [-c COMMAND [WHEN={startup,process,finish} ...]] [-k]
            [--wait-state FILENAME] [--wait-first-startup] [--keep-startup-env]
@@ -811,7 +811,7 @@ If a main command is set for example:
 If a main command is set *run tool* launch it otherwise bash is launched.
 Example:
 
-`docker run -it kueblerit/container-baseimage:12.0.0`
+`docker run -it kueblerit/container-baseimage:12.1.0`
 
 ##### Extra environment variables
 
@@ -899,8 +899,8 @@ FRUITS:
 Can also be set by command line converted in python or json:
 
 ```text
-docker run -it --env FRUITS="#PYTHON2BASH:['orange','apple']" kueblerit/container-baseimage:12.0.0 printenv
-docker run -it --env FRUITS="#JSON2BASH:[\"orange\",\"apple\"]" kueblerit/contaienr-baseimage:12.0.0 printenv
+docker run -it --env FRUITS="#PYTHON2BASH:['orange','apple']" kueblerit/container-baseimage:12.1.0 printenv
+docker run -it --env FRUITS="#JSON2BASH:[\"orange\",\"apple\"]" kueblerit/contaienr-baseimage:12.1.0 printenv
 ```
 
 ### Tests
