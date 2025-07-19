@@ -1,5 +1,5 @@
 NAME = kueblerit/container-baseimage
-VERSION = 12.1.0
+VERSION = 12.2.0
 
 .PHONY: build build-nocache test tag-latest push push-latest release git-tag-version
 

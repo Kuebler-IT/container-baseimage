@@ -5,7 +5,7 @@
 
 [hub]: https://hub.docker.com/r/kueblerit/container-baseimage/
 
-Latest release: 12.1.0 [Changelog](CHANGELOG.md)
+Latest release: 12.2.0 [Changelog](CHANGELOG.md)
  | [Docker Hub](https://hub.docker.com/r/kueblerit/container-baseimage/)
 
 A **Debian 12 (Bookworm)** based docker image to build reliable image quickly. This image provide a simple opinionated solution to build multiple or single process image with minimum of layers and an optimized build.
@@ -149,7 +149,7 @@ In the Dockerfile we are going to:
 ```Dockerfile
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.1.0
+FROM kueblerit/container-baseimage:12.2.0
 
 # Download nginx from apt-get and clean apt-get files
 RUN apt-get -y update \
@@ -417,7 +417,7 @@ In the Dockerfile we are going to:
 ```Dockerfile
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.1.0
+FROM kueblerit/container-baseimage:12.2.0
 
 # Install multiple process stack, nginx and php7.0-fpm and clean apt-get files
 # https://github.com/kuebler-it/container-baseimage/blob/stable/image/usr/local/sbin/add-multiple-process-stack
@@ -627,7 +627,7 @@ Here simple Dockerfile example how to add a service-available to an image:
 ```Dockerfile
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.1.0
+FROM kueblerit/container-baseimage:12.2.0
 
 # Add cfssl and cron service-available
 # https://github.com/kuebler-it/container-baseimage/blob/stable/image/usr/local/sbin/add-service-available
@@ -693,7 +693,7 @@ What it does:
 *Run tool* takes several options, to list them:
 
 ```text
-docker run kueblerit/container-baseimage:12.1.0 --help
+docker run kueblerit/container-baseimage:12.2.0 --help
 usage: run [-h] [-e] [-s] [-p] [-f] [-o {startup,process,finish}]
            [-c COMMAND [WHEN={startup,process,finish} ...]] [-k]
            [--wait-state FILENAME] [--wait-first-startup] [--keep-startup-env]
@@ -811,7 +811,7 @@ If a main command is set for example:
 If a main command is set *run tool* launch it otherwise bash is launched.
 Example:
 
-`docker run -it kueblerit/container-baseimage:12.1.0`
+`docker run -it kueblerit/container-baseimage:12.2.0`
 
 ##### Extra environment variables
 
@@ -899,8 +899,8 @@ FRUITS:
 Can also be set by command line converted in python or json:
 
 ```text
-docker run -it --env FRUITS="#PYTHON2BASH:['orange','apple']" kueblerit/container-baseimage:12.1.0 printenv
-docker run -it --env FRUITS="#JSON2BASH:[\"orange\",\"apple\"]" kueblerit/contaienr-baseimage:12.1.0 printenv
+docker run -it --env FRUITS="#PYTHON2BASH:['orange','apple']" kueblerit/container-baseimage:12.2.0 printenv
+docker run -it --env FRUITS="#JSON2BASH:[\"orange\",\"apple\"]" kueblerit/contaienr-baseimage:12.2.0 printenv
 ```
 
 ### Tests

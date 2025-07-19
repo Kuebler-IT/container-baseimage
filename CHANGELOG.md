@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [12.2.0] - 2025-07-19
+
+### Changed
+
+- The location of the ssl-tools on the target was switched from /usr/sbin to /usr/local/sbin
+- The default CA was updated and names are changed.
+
+### Fixed
+
+- cfssl tool downloads were broken due to new naming scheme of files on github. This is fixed in
+  that release also.
+
 ## [12.1.0] - 2025-07-17
 
 ### Changed
