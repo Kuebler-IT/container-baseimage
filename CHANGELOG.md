@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [Unreleased]
+
+## [12.2.1] - 2025-07-20
+
+### Fixed
+
+- Typo in cfssl links failed to download binaries.
 
 ## [12.2.0] - 2025-07-19
 
@@ -16,8 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- cfssl tool downloads were broken due to new naming scheme of files on github. This is fixed in
-  that release also.
+- cfssl tool downloads were broken due to new naming scheme of files on github.
+  This is fixed in that release also.
 
 ## [12.1.0] - 2025-07-17
 
@@ -27,14 +33,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 
-- All paths are changed for the /container/tools. The commands below are deprecated and
-  needs to be replaced on the images soon. This will definetly removed on releases 13.x
-  which is planned with Debian Trixie release cycle.
+- All paths are changed for the /container/tools. The commands below are
+  deprecated and needs to be replaced on the images soon. This will definetly
+  removed on releases 13.x which is planned with Debian Trixie release cycle.
 
 ### Fixed
 
-- Variable parsing from yaml file failed after upgrade to Python3.11, this is fixed in
-  this version now.
+- Variable parsing from yaml file failed after upgrade to Python3.11, this is
+  fixed in this version now.
 
 ## [12.0.0] - 2025-07-17
 
@@ -60,7 +66,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Remove -x bash flag on log-helper tool
 
-# [1.3.1] - 2021-01-24
+## [1.3.1] - 2021-01-24
 
 ### Fixed
 
@@ -142,7 +148,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add to the 'run' tool option --dont-touch-etc-hosts Don't add in /etc/hosts a line with the container ip and $HOSTNAME environment variable value.
+- Add to the 'run' tool option --dont-touch-etc-hosts Don't add in /etc/hosts a
+  line with the container ip and $HOSTNAME environment variable value.
 
 ### Fixed
 
@@ -170,13 +177,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix is_runit_installed check /usr/bin/sv instead of /sbin/runit #6
 - Fix logrotate config
 
-## [0.2.4] - 2016-06-09
+## [0.2.4] - 2016-06-09
 
 ### Changed
 
 - Periodic update of debian baseimage and packages
 
-## [0.2.3] - 2016-05-02
+## [0.2.3] - 2016-05-02
 
 ### Changed
 
@@ -200,18 +207,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add setup only env file
 - Add json env file support
 - Rename my_init to run (delete previous run script)
-- Add run tool option --copy-service that copy /container/service to /container/run/service on startup
-- Add run tool option --loglevel (default : info) with possible values : none, error, warning, info, debug.
+- Add run tool option --copy-service that copy /container/service to
+  /container/run/service on startup
+- Add run tool option --loglevel (default : info) with possible values : none,
+  error, warning, info, debug.
 - Add bash log-helper
 
 ### Changed
 
-- Container environment config directory /etc/container_environment moved to /container/environment
+- Container environment config directory /etc/container_environment moved to
+  /container/environment
 - Container run environment is now saved in /container/run/environment
-- Container run environment bash export /etc/container_environment.sh moved to /container/run/environment.sh
+- Container run environment bash export /etc/container_environment.sh moved to
+  /container/run/environment.sh
 - Container state is now saved in /container/run/state
-- Container runit process directory /etc/service moved to  /container/run/process
-- Container startup script directory /etc/my_init.d/ moved to /container/run/startup
+- Container runit process directory /etc/service moved to /container/run/process
+- Container startup script directory /etc/my_init.d/ moved to
+  /container/run/startup
 - Container final startup script /etc/rc.local moved to /container/run/startup.sh
 - Rename install-multiple-process-stack to add-multiple-process-stack
 - Rename install-service-available to add-service-available
@@ -281,7 +293,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release
 
-[unreleased]: https://github.com/kuebler-it/container-baseimage/compare/v12.0.0..HEAD
+[Unreleased]: https://github.com/kuebler-it/container-baseimage/compare/v12.2.1..HEAD
+[12.2.1]: https://github.com/kuebler-it/container-baseimage/compare/v12.2.0...v12.2.1
+[12.2.0]: https://github.com/kuebler-it/container-baseimage/compare/v12.1.0...v12.2.0
+[12.1.0]: https://github.com/kuebler-it/container-baseimage/compare/v12.0.0...v12.1.0
 [12.0.0]: https://github.com/kuebler-it/container-baseimage/compare/v1.3.3...v12.0.0
 [1.3.3]: https://github.com/osixia/docker-light-baseimage/compare/v1.3.2...v1.3.3
 [1.3.2]: https://github.com/osixia/docker-light-baseimage/compare/v1.3.1...v1.3.2

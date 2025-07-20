@@ -1,6 +1,6 @@
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.0.0
+FROM kueblerit/container-baseimage:12.2.1
 
 # Install multiple process stack, nginx and php8.2-fpm and clean apt-get files
 # https://github.com/kuebler-it/container-baseimage/blob/stable/image/usr/lib/sbin/add-multiple-process-stack

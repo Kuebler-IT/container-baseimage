@@ -2,15 +2,20 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/kueblerit/container-baseimage.svg)][hub]
 [![Docker Stars](https://img.shields.io/docker/stars/kueblerit/container-baseimage.svg)][hub]
+![Docker Image Version](https://img.shields.io/docker/v/kueblerit/container-baseimage)
 
 [hub]: https://hub.docker.com/r/kueblerit/container-baseimage/
 
-Latest release: 12.2.0 [Changelog](CHANGELOG.md)
- | [Docker Hub](https://hub.docker.com/r/kueblerit/container-baseimage/)
+![Debian](https://img.shields.io/badge/Debian-D70A53?style=for-the-badge&logo=debian&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
-A **Debian 12 (Bookworm)** based docker image to build reliable image quickly. This image provide a simple opinionated solution to build multiple or single process image with minimum of layers and an optimized build.
+A **Debian 12 (Bookworm)** based docker image to build reliable image quickly.
+This image provide a simple opinionated solution to build multiple or single
+process image with minimum of layers and an optimized build.
 
-The aims of this image is to be used as a base for your own Docker images. It's base on the awesome work of: [phusion/baseimage-docker](https://github.com/phusion/baseimage-docker) and a fork of the outdated [osixia/container-baseimage](https://github.com/osixia/container-baseimage).
+The aims of this image is to be used as a base for your own Docker images.
+It's base on the awesome work of: [phusion/baseimage-docker](https://github.com/phusion/baseimage-docker)
+and a fork of the outdated [osixia/container-baseimage](https://github.com/osixia/container-baseimage).
 
 Table of Contents
 
@@ -68,19 +73,26 @@ Table of Contents
 If you find this image useful here's how you can help:
 
 - Send a pull request with your kickass new features and bug fixes
-- Help new users with [issues](https://github.com/Kuebler-IT/container-baseimage/issues) they may encounter
+- Help new users with [issues](https://github.com/Kuebler-IT/container-baseimage/issues)
+  they may encounter
 - Support the development of this image and star this repo!
 
 ## Overview
 
-This image takes all the advantages of [phusion/baseimage-docker](https://github.com/phusion/baseimage-docker) but makes programs optional which allow more lightweight images and single process images. It also define simple directory structure and files to quickly set how a program (here called service) is installed, setup and run.
+This image takes all the advantages of [phusion/baseimage-docker](https://github.com/phusion/baseimage-docker)
+but makes programs optional which allow more lightweight images and single
+process images. It also define simple directory structure and files to quickly
+set how a program (here called service) is installed, setup and run.
 
 So major features are:
 
-- Greats building tools to minimize the image number of layers and optimize image build.
-- Simple way to install services and multiple process image stacks (runit, cron, syslog-ng-core and logrotate) if needed.
+- Greats building tools to minimize the image number of layers and optimize
+  image build.
+- Simple way to install services and multiple process image stacks (runit,
+  cron, syslog-ng-core and logrotate) if needed.
 - Getting environment variables from **.yaml** and **.json** files.
-- Special environment files **.startup.yaml** and **.startup.json** deleted after image startup files first execution to keep the image setup secret.
+- Special environment files **.startup.yaml** and **.startup.json** deleted
+  after image startup files first execution to keep the image setup secret.
 
 ## Quick Start
 
@@ -90,22 +102,27 @@ This image use four directories:
 
 - **/container/environment**: for environment files.
 - **/container/service**: for services to install, setup and run.
-- **/container/service-available**: for service that may be on demand downloaded, installed, setup and run.
+- **/container/service-available**: for service that may be on demand
+  downloaded, installed, setup and run.
 - **/container/tool**: for image tools (DEPRECATED).
 
 By the way at run time another directory is created:
 
-- **/container/run**: To store container run environment, state, startup files and process to run based on files in  /container/environment and /container/service directories.
+- **/container/run**: To store container run environment, state, startup files
+  and process to run based on files in  /container/environment and
+  /container/service directories.
 
 But this will be dealt with in the following section.
 
 ### Service directory structure
 
-This section define a service directory that can be added in /container/service or /container/service-available.
+This section define a service directory that can be added in /container/service
+or /container/service-available.
 
 - **my-service**: root directory
 - **my-service/install.sh**: install script (not mandatory).
-- **my-service/startup.sh**: startup script to setup the service when the container start (not mandatory).
+- **my-service/startup.sh**: startup script to setup the service when the
+  container start (not mandatory).
 - **my-service/process.sh**: process to run (not mandatory).
 - **my-service/finish.sh**: finish script run when the process script exit (not mandatory).
 - **my-service/...** add whatever you need!
@@ -127,13 +144,15 @@ First we create the directory structure of the image:
 - **single-process-image/environment**: environment files directory.
 - **single-process-image/Dockerfile**: the Dockerfile to build this image.
 
-**service** and **environment** directories name are arbitrary and can be changed but make sure to adapt their name everywhere and especially in the Dockerfile.
+**service** and **environment** directories name are arbitrary and can be
+changed but make sure to adapt their name everywhere and especially in the Dockerfile.
 
 Let's now create the nginx service directory:
 
 - **single-process-image/service/nginx**: service root directory
 - **single-process-image/service/nginx/install.sh**: service installation script.
-- **single-process-image/service/nginx/startup.sh**:  startup script to setup the service when the container start.
+- **single-process-image/service/nginx/startup.sh**:  startup script to setup
+  the service when the container start.
 - **single-process-image/service/nginx/process.sh**: process to run.
 
 #### Dockerfile
@@ -149,12 +168,12 @@ In the Dockerfile we are going to:
 ```Dockerfile
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.2.0
+FROM kueblerit/container-baseimage:12.2.1
 
 # Download nginx from apt-get and clean apt-get files
 RUN apt-get -y update \
-    && LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-       nginx \
+    && LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y \
+       --no-install-recommends nginx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -175,15 +194,23 @@ VOLUME /var/www/
 EXPOSE 80 443
 ```
 
-The Dockerfile contains directives to download nginx from apt-get but all the initial setup will take place in install.sh file (called by install-service tool) for a better build experience. The time consuming download task is decoupled from the initial setup to make great use of docker build cache. If install.sh file is changed the builder won't have to download again nginx, and will just run install scripts.
+The Dockerfile contains directives to download nginx from apt-get but all the
+initial setup will take place in install.sh file (called by install-service
+tool) for a better build experience. The time consuming download task is
+decoupled from the initial setup to make great use of docker build cache.
+If install.sh file is changed the builder won't have to download again nginx
+and will just run install scripts.
 
 #### Service files
 
 ##### install.sh
 
-This file must only contain directives for the service initial setup. Files download and apt-get command takes place in the Dockerfile for a better image building experience (see [Dockerfile](#dockerfile)).
+This file must only contain directives for the service initial setup. Files
+download and apt-get command takes place in the Dockerfile for a better image
+building experience (see [Dockerfile](#dockerfile)).
 
-In this example, for the initial setup we just delete the default nginx debian index file and create a custom index.html:
+In this example, for the initial setup we just delete the default nginx debian
+index file and create a custom index.html:
 
 ```bash
 #!/bin/bash -e
@@ -195,13 +222,20 @@ echo "Hi!" > /var/www/html/index.html
 
 Make sure install.sh can be executed (chmod +x install.sh).
 
-Note: The install.sh script is run during the docker build so run time environment variables can't be used to customize the setup. This is done in the startup.sh file.
+Note: The install.sh script is run during the docker build so run time
+environment variables can't be used to customize the setup. This is done in the
+startup.sh file.
 
 ##### startup.sh
 
-This file is used to make process.sh ready to be run and customize the service setup based on run time environment.
+This file is used to make process.sh ready to be run and customize the service
+setup based on run time environment.
 
-For example at run time we would like to introduce ourselves so we will use an environment variable WHO_AM_I set by command line with --env. So we add WHO_AM_I value to index.html file but we want to do that only on the first container start because on restart the index.html file will already contains our name:
+For example at run time we would like to introduce ourselves so we will use an
+environment variable WHO_AM_I set by command line with --env. So we add
+WHO_AM_I value to index.html file but we want to do that only on the first
+container start because on restart the index.html file will already contains
+our name:
 
 ```bash
 #!/bin/bash -e
@@ -218,7 +252,9 @@ exit 0
 
 Make sure startup.sh can be executed (chmod +x startup.sh).
 
-As you can see we use CONTAINER_STATE_DIR variable, it contains the directory where container state is saved, this variable is automatically set by run tool. Refer to the [Advanced User Guide](#extra-environment-variables) for more information.
+As you can see we use CONTAINER_STATE_DIR variable, it contains the directory
+where container state is saved, this variable is automatically set by run tool.
+Refer to the [Advanced User Guide](#extra-environment-variables) for more information.
 
 ##### process.sh
 
@@ -231,12 +267,14 @@ exec /usr/sbin/nginx -g "daemon off;"
 
 Make sure process.sh can be executed (chmod +x process.sh).
 
-*Caution: The command executed must start a foreground process otherwise the container will immediately stops.*
+*Caution: The command executed must start a foreground process otherwise the
+container will immediately stops.*
 
 That why we run nginx with `-g "daemon off;"`
 
 That's it we have a single process image that run nginx!
-We could already build and test this image but two more minutes to take advantage of environment files!
+We could already build and test this image but two more minutes to take
+advantage of environment files!
 
 #### Environment files
 
@@ -245,29 +283,34 @@ Let's create two files:
 - single-process-image/environment/default.yaml
 - single-process-image/environment/default.startup.yaml
 
-File name *default*.yaml and *default*.startup.yaml can be changed as you want. Also in this example we are going to use yaml files but json files works too.
+File name *default*.yaml and *default*.startup.yaml can be changed as you want.
+Also in this example we are going to use yaml files but json files works too.
 
 ##### default.yaml
 
-default.yaml file define variables that can be used at any time in the container environment:
+default.yaml file define variables that can be used at any time in the container
+environment:
 
 ```yaml
 WHO_AM_I: We are Anonymous. We are Legion. We do not forgive. We do not forget. Expect us.
-````
+```
 
 ##### default.startup.yaml
 
-default.startup.yaml define variables that are only available during the container **first start** in **startup files**.
-\*.startup.yaml are deleted right after startup files are processed for the first time,
-then all variables they contains will not be available in the container environment.
+default.startup.yaml define variables that are only available during the
+container **first start** in **startup files**. \*.startup.yaml are deleted
+right after startup files are processed for the first time, then all variables
+they contains will not be available in the container environment.
 
-This helps to keep the container configuration secret. If you don't care all environment variables can be defined in **default.yaml** and everything will work fine.
+This helps to keep the container configuration secret. If you don't care all
+environment variables can be defined in **default.yaml** and everything will
+work fine.
 
 But for this tutorial we will add a variable to this file:
 
 ```yaml
 FIRST_START_SETUP_ONLY_SECRET: The database password is KawaaahBounga
-````
+```
 
 And try to get its value in **startup.sh** script:
 
@@ -317,16 +360,21 @@ And the secret is not defined in the process:
 > \*\*\* Running /container/run/process/nginx/run...
 > The secret is:
 
-Yes in this case it's not really useful to have a secret variable like this, but a concrete example can be found in [kueblerit/openldap](https://github.com/kuebler-it/docker-openldap) image.
-The admin password is available in clear text during the container first start to create a new ldap database where it is saved encrypted. After that the admin password is not available in clear text in the container environment.
+Yes in this case it's not really useful to have a secret variable like this,
+but a concrete example can be found in [kueblerit/openldap](https://github.com/kuebler-it/docker-openldap)
+image. The admin password is available in clear text during the container first
+start to create a new ldap database where it is saved encrypted. After that the
+admin password is not available in clear text in the container environment.
 
 Ok let's check our name now, go to [http://localhost:8080/](http://localhost:8080/)
 
 You should see:
 
-> Hi! We are Anonymous. We are Legion. We do not forgive. We do not forget. Expect us.
+> Hi! We are Anonymous. We are Legion. We do not forgive. We do not forget
+  Expect us.
 
-And finally, let's say who we really are, stop the previous container (ctrl+c or ctrl+d) and start a new one:
+And finally, let's say who we really are, stop the previous container (ctrl+c
+or ctrl+d) and start a new one:
 
 ```bash
 docker run --env WHO_AM_I="I'm Jon Snow, what?! i'm dead?" -p 8080:80 example/single-process
@@ -336,7 +384,7 @@ Refresh [http://localhost:8080/](http://localhost:8080/) and you should see:
 
 > Hi! I'm Jon Snow, what?! i'm dead?
 
-##### Overriding default environment files at run time:
+##### Overriding default environment files at run time
 
 Let's create two new environment files:
 
@@ -358,10 +406,15 @@ FIRST_START_SETUP_ONLY_SECRET: The database password is KawaaahB0unga!!!
 And we mount them at run time:
 
 ```bash
-docker run --volume $PWD/test-custom-env:/container/environment/01-custom -p 8080:80 example/single-process
+docker run --volume $PWD/test-custom-env:/container/environment/01-custom \
+-p 8080:80 example/single-process
 ```
 
-Take care to link your environment files folder to `/container/environment/XX-somedir` (with XX < 99 so they will be processed before default environment files) and not  directly to `/container/environment` because this directory contains predefined baseimage environment files to fix container environment (INITRD, LANG, LANGUAGE and LC_CTYPE).
+Take care to link your environment files folder to
+`/container/environment/XX-somedir` (with XX < 99 so they will be processed
+before default environment files) and not  directly to `/container/environment
+because this directory contains predefined baseimage environment files to fix
+container environment (INITRD, LANG, LANGUAGE and LC_CTYPE).
 
 In the output:
 
@@ -376,32 +429,38 @@ Refresh [http://localhost:8080/](http://localhost:8080/) and you should see:
 
 #### Overview
 
-This example takes back the single process image example and add php7.0-fpm to run php scripts.
+This example takes back the single process image example and add php7.0-fpm to
+run php scripts.
 
 See complete example in: [example/multiple-process-image](example/multiple-process-image)
 
-Note: it would have been  ♪ ~~harder~~, faster, better, stronger ♪ to extends the previous image but to make things easier we just copied files.
+Note: it would have been  ♪ ~~harder~~, faster, better, stronger ♪ to extends
+the previous image but to make things easier we just copied files.
 
 So here the image directory structure:
 
 - **multiple-process-image**: root directory
-- **multiple-process-image/service**: directory to store the nginx and php7.0-fpm service.
+- **multiple-process-image/service**: directory to store the nginx and
+  php-fpm service.
 - **multiple-process-image/environment**: environment files directory.
 - **multiple-process-image/Dockerfile**: the Dockerfile to build this image.
 
-**service** and **environment** directories name are arbitrary and can be changed but make sure to adapt their name in the Dockerfile.
+**service** and **environment** directories name are arbitrary and can be
+changed but make sure to adapt their name in the Dockerfile.
 
 Let's now create the nginx and php directories:
 
 - **multiple-process-image/service/nginx**: nginx root directory
 - **multiple-process-image/service/nginx/install.sh**: service installation script.
-- **multiple-process-image/service/nginx/startup.sh**:  startup script to setup the service when the container start.
+- **multiple-process-image/service/nginx/startup.sh**:  startup script to setup
+  the service when the container start.
 - **multiple-process-image/service/nginx/process.sh**: process to run.
 
 - **multiple-process-image/service/php**: php root directory
 - **multiple-process-image/service/php/install.sh**: service installation script.
 - **multiple-process-image/service/php/process.sh**: process to run.
-- **multiple-process-image/service/php/config/default**: default nginx server config with
+- **multiple-process-image/service/php/config/default**: default nginx server
+  config with
 
 #### Dockerfile
 
@@ -417,13 +476,14 @@ In the Dockerfile we are going to:
 ```Dockerfile
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.2.0
+FROM kueblerit/container-baseimage:12.2.1
 
 # Install multiple process stack, nginx and php7.0-fpm and clean apt-get files
 # https://github.com/kuebler-it/container-baseimage/blob/stable/image/usr/local/sbin/add-multiple-process-stack
 RUN apt-get -y update \
     && add-multiple-process-stack \
-    && LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    && LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        --no-install-recommends \
         nginx \
         php7.0-fpm \
     && apt-get clean \
@@ -446,19 +506,28 @@ VOLUME /var/www/
 EXPOSE 80 443
 ```
 
-The Dockerfile contains directives to download nginx and php7.0-fpm from apt-get but all the initial setup will take place in install.sh file (called by install-service tool) for a better build experience. The time consuming download task is decoupled from the initial setup to make great use of docker build cache. If an install.sh file is changed the builder will not have to download again nginx and php7.0-fpm add will just run install scripts.
+The Dockerfile contains directives to download nginx and php7.0-fpm from apt-get
+but all the initial setup will take place in install.sh file (called by
+install-service tool) for a better build experience. The time consuming
+download task is decoupled from the initial setup to make great use of docker
+build cache. If an install.sh file is changed the builder will not have to
+download again nginx and php7.0-fpm add will just run install scripts.
 
 Maybe you already read that in the previous example ?Sorry.
 
 #### Service files
 
-Please refer to [single process image](#create-a-single-process-image) for the nginx service files description. Here just php service files are described.
+Please refer to [single process image](#create-a-single-process-image) for the
+nginx service files description. Here just php service files are described.
 
 ##### install.sh
 
-This file must only contains directives for the service initial setup. Files download and apt-get command takes place in the Dockerfile for a better image building experience (see [Dockerfile](#dockerfile-1) ).
+This file must only contains directives for the service initial setup. Files
+download and apt-get command takes place in the Dockerfile for a better image
+building experience (see [Dockerfile](#dockerfile-1) ).
 
-In this example, for the initial setup we set some php default configuration, replace the default nginx server config and add phpinfo.php file:
+In this example, for the initial setup we set some php default configuration,
+replace the default nginx server config and add phpinfo.php file:
 
 ```bash
 #!/bin/bash -e
@@ -493,11 +562,12 @@ exec /usr/sbin/php-fpm7.0 --nodaemonize
 
 Make sure process.sh can be executed (chmod +x process.sh).
 
-*Caution: The command executed must start a foreground process otherwise runit (use to supervise multiple process images) will  keep restarting php-fpm7.0.*
+*Caution: The command executed must start a foreground process otherwise runit
+(use to supervise multiple process images) will  keep restarting php-fpm7.0.*
 
 That why we run php  with `--nodaemonize"`
 
-##### config/default
+##### config/default
 
 nginx server configuration:
 
@@ -590,7 +660,8 @@ Send me a message to add your image in this list.
 
 ### Tools
 
-All container tools are available in `/container/tool` directory and are linked in `/sbin/` so they belong to the container PATH.
+All container tools are available in `/container/tool` directory and are linked
+in `/sbin/` so they belong to the container PATH.
 
 | Filename        | Description |
 | ---------------- | ------------------- |
@@ -616,9 +687,12 @@ All container tools are available in `/container/tool` directory and are linked 
 
 ### Service available
 
-A service-available is basically a normal service expect that it is in the `service-available` directory and have a `download.sh` file.
+A service-available is basically a normal service expect that it is in the
+`service-available` directory and have a `download.sh` file.
 
-To add a service-available to the current image use the `add-service-available` tool. It will process the download.sh file of services given in argument and move them to the regular service directory (/container/service).
+To add a service-available to the current image use the `add-service-available`
+tool. It will process the download.sh file of services given in argument and
+move them to the regular service directory (/container/service).
 
 After that the service-available will be process like regular services.
 
@@ -627,7 +701,7 @@ Here simple Dockerfile example how to add a service-available to an image:
 ```Dockerfile
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.2.0
+FROM kueblerit/container-baseimage:12.2.1
 
 # Add cfssl and cron service-available
 # https://github.com/kuebler-it/container-baseimage/blob/stable/image/usr/local/sbin/add-service-available
@@ -635,50 +709,74 @@ FROM kueblerit/container-baseimage:12.2.0
 # https://github.com/kuebler-it/container-baseimage/blob/stable/image/service-available/:cron/download.sh
 RUN apt-get -y update \
     && add-service-available :ssl-tools :cron \
-    && LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    && LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y \
+       --no-install-recommends \
        nginx \
        php7.0-fpm
 ```
 
-Note: Most of predefined service available start with a `:` to make sure they are installed before regular services (so they can be used by regular services). The install-service tool process services in /container/service in alphabetical order.
+Note: Most of predefined service available start with a `:` to make sure they
+are installed before regular services (so they can be used by regular
+services). The install-service tool process services in /container/service in
+alphabetical order.
 
-To create a service-available just create a regular service, add a download.sh file to set how the needed content is downloaded and add it to /container/service-available directory. The download.sh script is not mandatory if nothing need to be downloaded.
+To create a service-available just create a regular service, add a download.sh
+file to set how the needed content is downloaded and add it to
+/container/service-available directory. The download.sh script is not mandatory
+if nothing need to be downloaded.
 
-For example a simple image example that add service-available to this baseimage: [osixia/web-baseimage](https://github.com/osixia/docker-web-baseimage)
+For example a simple image example that add service-available to this
+baseimage: [osixia/web-baseimage](https://github.com/osixia/docker-web-baseimage)
 
 ### Fix docker mounted file problems
 
-For some reasons you will probably have to mount custom files to your container. For example in the *mutliple process image example* you can customise the nginx config by mounting your custom config to "/container/service/php/config/default" :
+For some reasons you will probably have to mount custom files to your
+container. For example in the *mutliple process image example* you can
+customise the nginx config by mounting your custom config to
+"/container/service/php/config/default" :
 
 `docker run -v /data/my-nginx-config:/container/service/php/config/default example/multiple-process`
 
-In this case every thing should work fine, but if the startup script makes some `sed` replacement or change file owner and permissions this can results in "Device or resource busy" error. See [Docker documentation](https://docs.docker.com/v1.4/userguide/dockervolumes/#mount-a-host-file-as-a-data-volume).
+In this case every thing should work fine, but if the startup script makes some
+`sed` replacement or change file owner and permissions this can results in
+"Device or resource busy" error. See [Docker documentation](https://docs.docker.com/v1.4/userguide/dockervolumes/#mount-a-host-file-as-a-data-volume).
 
 `sed -i "s|listen 80|listen 8080|g" /container/service/php/config/default`
 
-To prevent that king of error container-baseimage provide *--copy-service* command argument :
+To prevent that king of error container-baseimage provide *--copy-service*
+command argument :
 
-`docker run -v /data/my-nginx-config:/container/service/php/config/default example/multiple-process --copy-service`
+```bash
+docker run -v /data/my-nginx-config:/container/service/php/config/default \
+example/multiple-process --copy-service`
+```
 
 On startup this will copy all /container/service directory to /container/run/service.
 
-At run time you can get the container service directory with `CONTAINER_SERVICE_DIR` environment variable.
-If *--copy-service* is used *CONTAINER_SERVICE_DIR=/container/run/service* otherwise *CONTAINER_SERVICE_DIR=/container/service*
+At run time you can get the container service directory with
+`CONTAINER_SERVICE_DIR` environment variable. If *--copy-service* is used
+*CONTAINER_SERVICE_DIR=/container/run/service* otherwise
+*CONTAINER_SERVICE_DIR=/container/service*
 
-So to always apply sed on the correct file in the startup script the command becomes :
+So to always apply sed on the correct file in the startup script the
+command becomes :
 
 `sed -i "s|listen 80|listen 8080|g" ${CONTAINER_SERVICE_DIR}/php/config/default`
 
 ### Distribution packages documentation and locales
 
-This image has a configuration to prevent documentation and locales to be installed from base distribution packages repositories to make it more lightweight as possible. If you need the doc and locales remove the following files :
+This image has a configuration to prevent documentation and locales to be
+installed from base distribution packages repositories to make it more
+lightweight as possible. If you need the doc and locales remove the following files:
+
 **/etc/dpkg/dpkg.cfg.d/01_nodoc** and **/etc/dpkg/dpkg.cfg.d/01_nolocales**
 
 ### Mastering image tools
 
 #### run
 
-The *run tool* is defined as the image ENTRYPOINT (see [Dockerfile](image/Dockerfile)). It's the core tool of this image.
+The *run tool* is defined as the image ENTRYPOINT (see
+[Dockerfile](image/Dockerfile)). It's the core tool of this image.
 
 What it does:
 
@@ -693,7 +791,7 @@ What it does:
 *Run tool* takes several options, to list them:
 
 ```text
-docker run kueblerit/container-baseimage:12.2.0 --help
+docker run kueblerit/container-baseimage:12.2.1 --help
 usage: run [-h] [-e] [-s] [-p] [-f] [-o {startup,process,finish}]
            [-c COMMAND [WHEN={startup,process,finish} ...]] [-k]
            [--wait-state FILENAME] [--wait-first-startup] [--keep-startup-env]
@@ -759,7 +857,8 @@ Kuebler-IT Container Baseimage: https://github.com/kuebler-it/container-baseimag
 - /container/run/process
 - /container/run/service
 
-At the container first start it will search in /container/service or /container/run/service (if --copy-service option is used) all image's services.
+At the container first start it will search in /container/service or
+/container/run/service (if --copy-service option is used) all image's services.
 
 In a service directory for example /container/service/my-service:
 
@@ -768,21 +867,28 @@ In a service directory for example /container/service/my-service:
 
 ##### Startup files environment setup
 
-*Run tool* takes all file in /container/environment/* and import the variables values to the container environment.
-The container environment is then exported to /container/run/environment and in /container/run/environment.sh
+*Run tool* takes all file in /container/environment/* and import the variables
+values to the container environment. The container environment is then exported
+to /container/run/environment and in /container/run/environment.sh
 
 ##### Startup files execution
 
-*Run tool* iterate trough /container/run/startup/* directory in alphabetical order and run scripts.
-After each time *run tool* runs a startup script, it resets its own environment variables to the state in /container/run/environment, and re-dumps the new environment variables to /container/run/environment.sh
+*Run tool* iterate trough /container/run/startup/* directory in alphabetical
+order and run scripts. After each time *run tool* runs a startup script,
+it resets its own environment variables to the state in
+/container/run/environment, and re-dumps the new environment variables
+to /container/run/environment.sh
 
 After all startup script *run tool* run /container/run/startup.sh if exists.
 
-##### Process environment setup
+##### Process environment setup
 
-*Run tool* delete all .startup.yaml and .startup.json in /container/environment/* and clear the previous run environment (/container/run/environment is removed)
-Then it takes all remaining file in /container/environment/* and import the variables values to the container environment.
-The container environment is then exported to /container/run/environment and in /container/run/environment.sh
+*Run tool* delete all .startup.yaml and .startup.json in
+/container/environment/\* and clear the previous run environment
+(/container/run/environment is removed) Then it takes all remaining file in
+/container/environment/\* and import the variables values to the container
+environment. The container environment is then exported to
+/container/run/environment and in /container/run/environment.sh
 
 ##### Process execution
 
@@ -794,36 +900,44 @@ If a main command is set for example:
 
 `docker run -it kueberit/openldap:2.6.10 bash`
 
-*Run tool* will execute the single process and the main command. If the main command exits the container exits. This is useful to debug or image development purpose.
+*Run tool* will execute the single process and the main command. If the main
+command exits the container exits. This is useful to debug or image development
+purpose.
 
 ###### Multiple process image
 
-In a multiple process image *run tool* execute runit witch supervise /container/run/process directory and start all services automatically. Runit will also relaunched them if they failed.
+In a multiple process image *run tool* execute runit witch supervise
+/container/run/process directory and start all services automatically.
+Runit will also relaunched them if they failed.
 
 If a main command is set for example:
 
 `docker run -it osixia/phpldapadmin:0.9.0 bash`
 
-*run tool* will execute runit and the main command. If the main command exits the container exits. This is still useful to debug or image development purpose.
+*run tool* will execute runit and the main command. If the main command exits
+the container exits. This is still useful to debug or image development purpose.
 
 ###### No process image
 
 If a main command is set *run tool* launch it otherwise bash is launched.
 Example:
 
-`docker run -it kueblerit/container-baseimage:12.2.0`
+`docker run -it kueblerit/container-baseimage:12.2.1`
 
 ##### Extra environment variables
 
 *run tool* add 3 variables to the container environment:
 
 - **CONTAINER_STATE_DIR**: /container/run/state
-- **CONTAINER_SERVICE_DIR**: the container service directory. By default: /container/service but if the container is started with --copy-service option: /container/run/service
+- **CONTAINER_SERVICE_DIR**: the container service directory. By default:
+  /container/service but if the container is started with --copy-service
+  option: /container/run/service
 - **CONTAINER_LOG_LEVEL**: log level set by --loglevel option defaults to: 3 (info)
 
 #### log-helper
 
-This tool is a simple utility based on the CONTAINER_LOG_LEVEL variable to print leveled log messages.
+This tool is a simple utility based on the CONTAINER_LOG_LEVEL variable to
+print leveled log messages.
 
 For example if the log level is info:
 
@@ -856,8 +970,11 @@ Help: [http://www.tldp.org/LDP/abs/html/comparison-ops.html](http://www.tldp.org
 
 #### complex-bash-env
 
-With container-baseimage you can set bash environment variable from .yaml and .json files.
-But bash environment variables can't store complex objects such as table that can be defined in yaml or json files, that's why they are converted to "complex bash environment variables" and complex-bash-env tool help getting those variables values easily.
+With container-baseimage you can set bash environment variable from .yaml and
+.json files. But bash environment variables can't store complex objects such as
+table that can be defined in yaml or json files, that's why they are converted
+to "complex bash environment variables" and complex-bash-env tool help getting
+those variables values easily.
 
 For example the following yaml file:
 
@@ -886,7 +1003,8 @@ do
 done
 ```
 
-A more complete example can be found [osixia/phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin) image.
+A more complete example can be found [osixia/phpLDAPadmin](https://github.com/osixia/docker-phpLDAPadmin)
+image.
 
 Note this yaml definition:
 
@@ -898,9 +1016,11 @@ FRUITS:
 
 Can also be set by command line converted in python or json:
 
-```text
-docker run -it --env FRUITS="#PYTHON2BASH:['orange','apple']" kueblerit/container-baseimage:12.2.0 printenv
-docker run -it --env FRUITS="#JSON2BASH:[\"orange\",\"apple\"]" kueblerit/contaienr-baseimage:12.2.0 printenv
+```bash
+docker run -it --env FRUITS="#PYTHON2BASH:['orange','apple']" \
+kueblerit/container-baseimage:12.2.1 printenv
+docker run -it --env FRUITS="#JSON2BASH:[\"orange\",\"apple\"]" \
+kueblerit/container-baseimage:12.2.1 printenv
 ```
 
 ### Tests

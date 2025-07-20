@@ -1,6 +1,6 @@
 # Use kueblerit/container-baseimage
 # https://github.com/kuebler-it/container-baseimage
-FROM kueblerit/container-baseimage:12.0.0
+FROM kueblerit/container-baseimage:12.2.1
 
 # Download nginx from apt-get and clean apt-get files
 RUN apt-get -y update \
